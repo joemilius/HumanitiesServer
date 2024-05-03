@@ -30,3 +30,12 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
+    
+class Membership(db.Model, SerializerMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    admin = db.Column(db.Boolean)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    user = db.relationship('User', back_populates='memberships')
+    group = db.relationship('Group', back_populates='memberships')
