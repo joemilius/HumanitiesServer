@@ -20,8 +20,14 @@ class User(db.Model, SerializerMixin):
     memberships = db.relationship(
         'Membership', back_populates='user', cascade='all, delete-orphan')
     
+    invitations = db.relationship(
+        'Invitation', back_populates='user', cascade='all, delete-orphan')
+    
     groups = association_proxy('memberships', 'group',
                                  creator=lambda project_obj: Membership(project=project_obj))
+    
+    new_invites = association_proxy('invitations', 'group',
+                                 creator=lambda project_obj: Invitation(project=project_obj))
 
     @hybrid_property
     def password_hash(self):
@@ -54,13 +60,32 @@ class Group(db.Model, SerializerMixin):
     memberships = db.relationship(
         'Membership', back_populates='group', cascade='all, delete-orphan')
     
+    invitations = db.relationship(
+        'Invitation', back_populates='group', cascade='all, delete-orphan')
+    
     users = association_proxy('memberships', 'user',
                                  creator=lambda project_obj: Membership(project=project_obj))
+    
+    new_invites = association_proxy('invitations', 'user',
+                                 creator=lambda project_obj: Invitation(project=project_obj))
+    
     
 class Membership(db.Model, SerializerMixin):
     __tablename__ = 'memberships'
     id = db.Column(db.Integer, primary_key=True)
     admin = db.Column(db.Boolean)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    user = db.relationship('User', back_populates='memberships')
+    group = db.relationship('Group', back_populates='memberships')
+
+class Invitation(db.Model, SerializerMixin):
+    __tablename__ = 'invitations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String)
+    accepted = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
