@@ -17,6 +17,12 @@ class User(db.Model, SerializerMixin):
     logins = db.Column(db.Integer)
     _password_hash = db.Column(db.String, nullable=False)
 
+    memberships = db.relationship(
+        'Membership', back_populates='user', cascade='all, delete-orphan')
+    
+    groups = association_proxy('memberships', 'group',
+                                 creator=lambda project_obj: Membership(project=project_obj))
+
     @hybrid_property
     def password_hash(self):
         return self._password_hash
@@ -39,3 +45,13 @@ class Membership(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='memberships')
     # group = db.relationship('Group', back_populates='memberships')
+
+class Group(db.Model, SerializerMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    group_name = db.Column(db.String, nullable=False)
+
+    memberships = db.relationship(
+        'Membership', back_populates='user', cascade='all, delete-orphan')
+    
+    users = association_proxy('memberships', 'user',
+                                 creator=lambda project_obj: Membership(project=project_obj))
