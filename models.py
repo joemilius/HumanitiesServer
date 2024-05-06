@@ -37,21 +37,32 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
     
-class Membership(db.Model, SerializerMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    admin = db.Column(db.Boolean)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    # group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+# class Membership(db.Model, SerializerMixin):
+#     id = db.Column(db.Integer, primary_key=True)
+#     admin = db.Column(db.Boolean)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+#     # group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-    user = db.relationship('User', back_populates='memberships')
-    # group = db.relationship('Group', back_populates='memberships')
+#     user = db.relationship('User', back_populates='memberships')
+#     # group = db.relationship('Group', back_populates='memberships')
 
 class Group(db.Model, SerializerMixin):
+    __tablename__ = 'groups'
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String, nullable=False)
 
     memberships = db.relationship(
-        'Membership', back_populates='user', cascade='all, delete-orphan')
+        'Membership', back_populates='group', cascade='all, delete-orphan')
     
     users = association_proxy('memberships', 'user',
                                  creator=lambda project_obj: Membership(project=project_obj))
+    
+class Membership(db.Model, SerializerMixin):
+    __tablename__ = 'memberships'
+    id = db.Column(db.Integer, primary_key=True)
+    admin = db.Column(db.Boolean)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    user = db.relationship('User', back_populates='memberships')
+    group = db.relationship('Group', back_populates='memberships')
