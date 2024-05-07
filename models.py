@@ -43,14 +43,7 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
     
-# class Membership(db.Model, SerializerMixin):
-#     id = db.Column(db.Integer, primary_key=True)
-#     admin = db.Column(db.Boolean)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     # group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-#     user = db.relationship('User', back_populates='memberships')
-#     # group = db.relationship('Group', back_populates='memberships')
 
 class Group(db.Model, SerializerMixin):
     __tablename__ = 'groups'
@@ -62,6 +55,9 @@ class Group(db.Model, SerializerMixin):
     
     invitations = db.relationship(
         'Invitation', back_populates='group', cascade='all, delete-orphan')
+    
+    activities = db.relationship(
+        'Activity', back_populates='group', cascade='all, delete-orphan')
     
     users = association_proxy('memberships', 'user',
                                  creator=lambda project_obj: Membership(project=project_obj))
@@ -91,3 +87,18 @@ class Invitation(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='memberships')
     group = db.relationship('Group', back_populates='memberships')
+
+
+class Activity(db.Model, SerializerMixin):
+    __tablename__ = 'activities'
+
+    id = db.Column(db.Integer, primary_key=True)
+    activity_name = db.Column(db.String)
+    description = db.Column(db.String)
+    votes = db.Column(db.Integer)
+    date = db.Column(db.Date)
+    time = db.Column(db.Time)
+
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    group = db.relationship('Group', back_populates='activities')
