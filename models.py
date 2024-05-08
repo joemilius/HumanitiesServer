@@ -142,3 +142,16 @@ class Music(db.Model, SerializerMixin):
     group = db.relationship('Group', back_populates='musics')
 
 
+
+class Book(db.Model, SerializerMixin):
+    __tablename__ = 'books'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    author = db.Column(db.String)
+    image = db.Column(db.String)
+    description = db.Column(db.String)
+    
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    group = db.relationship('Group', back_populates='books')
