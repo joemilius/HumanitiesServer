@@ -71,6 +71,9 @@ class Group(db.Model, SerializerMixin):
     music = db.relationship(
         'Music', back_populates='group', cascade='all, delete-orphan')
     
+    books = db.relationship(
+        'Book', back_populates='group', cascade='all, delete-orphan')
+    
     
     
 class Membership(db.Model, SerializerMixin):
