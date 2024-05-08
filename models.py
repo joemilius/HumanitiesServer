@@ -53,17 +53,24 @@ class Group(db.Model, SerializerMixin):
     memberships = db.relationship(
         'Membership', back_populates='group', cascade='all, delete-orphan')
     
+    users = association_proxy('memberships', 'user',
+                                 creator=lambda project_obj: Membership(project=project_obj))
+    
     invitations = db.relationship(
         'Invitation', back_populates='group', cascade='all, delete-orphan')
+    
+    new_invites = association_proxy('invitations', 'user',
+                                 creator=lambda project_obj: Invitation(project=project_obj))
     
     activities = db.relationship(
         'Activity', back_populates='group', cascade='all, delete-orphan')
     
-    users = association_proxy('memberships', 'user',
-                                 creator=lambda project_obj: Membership(project=project_obj))
+    movies = db.relationship(
+        'Movie', back_populates='group', cascade='all, delete-orphan')
     
-    new_invites = association_proxy('invitations', 'user',
-                                 creator=lambda project_obj: Invitation(project=project_obj))
+    music = db.relationship(
+        'Music', back_populates='group', cascade='all, delete-orphan')
+    
     
     
 class Membership(db.Model, SerializerMixin):
@@ -117,4 +124,21 @@ class Movie(db.Model, SerializerMixin):
 
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-    group = db.relationship('Group', back_populates='activities')
+    group = db.relationship('Group', back_populates='movies')
+
+
+class Music(db.Model, SerializerMixin):
+    __tablename__ = 'musics'
+
+    id = db.Column(db.Integer, primary_key=True)
+    artist_name = db.Column(db.String)
+    album_name = db.Column(db.String)
+    image = db.Column(db.String)
+    year = db.Column(db.Integer)
+    description = db.Column(db.String)
+
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    group = db.relationship('Group', back_populates='musics')
+
+
