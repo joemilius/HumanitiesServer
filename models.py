@@ -9,6 +9,19 @@ from config import db
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
+    serialize_rules = (
+        '-memberships.user',
+        'invitations.user',
+        'groups.users',
+        '-new_invites.user',
+        '-movies.users',
+        '-music.users',
+        '-books.users',
+        '-movie_comments.user',
+        '-music_comments.user',
+        '-book_comments.user',
+    )
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
@@ -62,6 +75,18 @@ class User(db.Model, SerializerMixin):
 
 class Group(db.Model, SerializerMixin):
     __tablename__ = 'groups'
+
+    serialize_rules = (
+        '-memberships.group',
+        '-users.group',
+        '-invitations.group',
+        '-new_invites.group',
+        '-activities.group',
+        '-movies.group',
+        '-music.group',
+        '-books.group'
+    )
+
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String, nullable=False)
 
@@ -93,6 +118,9 @@ class Group(db.Model, SerializerMixin):
     
 class Membership(db.Model, SerializerMixin):
     __tablename__ = 'memberships'
+
+    serialize_rules = ('-user.memberships', '-group.memberships')
+
     id = db.Column(db.Integer, primary_key=True)
     admin = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -103,6 +131,8 @@ class Membership(db.Model, SerializerMixin):
 
 class Invitation(db.Model, SerializerMixin):
     __tablename__ = 'invitations'
+
+    serialize_rules = ('-user.invitations', '-group.invitations',)
 
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String)
@@ -116,6 +146,8 @@ class Invitation(db.Model, SerializerMixin):
 
 class Activity(db.Model, SerializerMixin):
     __tablename__ = 'activities'
+
+    serialize_rules = ('-group.activities')
 
     id = db.Column(db.Integer, primary_key=True)
     activity_name = db.Column(db.String)
@@ -131,6 +163,8 @@ class Activity(db.Model, SerializerMixin):
 
 class Movie(db.Model, SerializerMixin):
     __tablename__ = 'movies'
+
+    serialize_rules = ('-group.movie', '-movie_comments.movie', '-users.movie',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -154,6 +188,8 @@ class Movie(db.Model, SerializerMixin):
 class Music(db.Model, SerializerMixin):
     __tablename__ = 'musics'
 
+    serialize_rules = ('-group.music', '-music_comments.music', 'users.music',)
+
     id = db.Column(db.Integer, primary_key=True)
     artist_name = db.Column(db.String)
     album_name = db.Column(db.String)
@@ -175,6 +211,8 @@ class Music(db.Model, SerializerMixin):
 
 class Book(db.Model, SerializerMixin):
     __tablename__ = 'books'
+
+    serialize_rules = ('-group.book', '-book_commnets.book', '-users.book',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -214,7 +252,7 @@ class Movie_Comment(db.Model, SerializerMixin):
 class Music_Comment(db.Model, SerializerMixin):
     __tablename__ = 'music_comments'
 
-    serialize_rules = ('-music.movie_comments', '-user.music_comments',)
+    serialize_rules = ('-music.music_comments', '-user.music_comments',)
 
     id = db.Column(db.Integer, primary_key=True)
     stars = db.Column(db.Integer)
@@ -232,7 +270,7 @@ class Music_Comment(db.Model, SerializerMixin):
 class Book_Comment(db.Model, SerializerMixin):
     __tablename__ = 'book_comments'
 
-    serialize_rules = ('-book.movie_comments', '-user.book_comments',)
+    serialize_rules = ('-book.book_comments', '-user.book_comments',)
 
     id = db.Column(db.Integer, primary_key=True)
     stars = db.Column(db.Integer)
