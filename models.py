@@ -33,6 +33,16 @@ class User(db.Model, SerializerMixin):
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
     movie_comments = db.relationship(
         'Movie_Comment', back_populates='user', cascade='all, delete-orphan')
+    
+    music = association_proxy('music_comments', 'music',
+                                 creator=lambda project_obj: Movie_Comment(project=project_obj))
+    music_comments = db.relationship(
+        'Music_Comment', back_populates='user', cascade='all, delete-orphan')
+    
+    books = association_proxy('book_comments', 'book',
+                                 creator=lambda project_obj: Movie_Comment(project=project_obj))
+    book_comments = db.relationship(
+        'Book_Comment', back_populates='user', cascade='all, delete-orphan')
 
     @hybrid_property
     def password_hash(self):
@@ -137,7 +147,7 @@ class Movie(db.Model, SerializerMixin):
     movie_comments = db.relationship(
         'Movie_Comment', back_populates='Movie', cascade='all, delete-orphan')
     
-    users = association_proxy('memberships', 'user',
+    users = association_proxy('movies', 'user',
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
 
 
@@ -155,6 +165,12 @@ class Music(db.Model, SerializerMixin):
 
     group = db.relationship('Group', back_populates='musics')
 
+    music_comments = db.relationship(
+        'Music_Comment', back_populates='Music', cascade='all, delete-orphan')
+    
+    users = association_proxy('music_comments', 'user',
+                                 creator=lambda project_obj: Movie_Comment(project=project_obj))
+
 
 
 class Book(db.Model, SerializerMixin):
@@ -169,6 +185,12 @@ class Book(db.Model, SerializerMixin):
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
     group = db.relationship('Group', back_populates='books')
+
+    book_comments = db.relationship(
+        'Book_Comment', back_populates='Movie', cascade='all, delete-orphan')
+    
+    users = association_proxy('books_commnets', 'user',
+                                 creator=lambda project_obj: Movie_Comment(project=project_obj))
 
 
 class Movie_Comment(db.Model, SerializerMixin):
@@ -203,3 +225,17 @@ class Music_Comment(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='music_comments')
 
 
+class Book_Comment(db.Model, SerializerMixin):
+    __tablename__ = 'book_comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    stars = db.Column(db.Integer)
+    content = db.Column(db.String)
+
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
+
+    book = db.relationship('Book', back_populates='book_comments')
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates='book_comments')
