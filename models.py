@@ -196,6 +196,8 @@ class Book(db.Model, SerializerMixin):
 class Movie_Comment(db.Model, SerializerMixin):
     __tablename__ = 'movie_comments'
 
+    serialize_rules = ('-movies.movie_comments', '-user.movie_comments',)
+
     id = db.Column(db.Integer, primary_key=True)
     stars = db.Column(db.Integer)
     content = db.Column(db.String)
@@ -212,6 +214,8 @@ class Movie_Comment(db.Model, SerializerMixin):
 class Music_Comment(db.Model, SerializerMixin):
     __tablename__ = 'music_comments'
 
+    serialize_rules = ('-music.movie_comments', '-user.music_comments',)
+
     id = db.Column(db.Integer, primary_key=True)
     stars = db.Column(db.Integer)
     content = db.Column(db.String)
@@ -227,6 +231,8 @@ class Music_Comment(db.Model, SerializerMixin):
 
 class Book_Comment(db.Model, SerializerMixin):
     __tablename__ = 'book_comments'
+
+    serialize_rules = ('-book.movie_comments', '-user.book_comments',)
 
     id = db.Column(db.Integer, primary_key=True)
     stars = db.Column(db.Integer)
