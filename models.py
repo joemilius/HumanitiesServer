@@ -185,3 +185,21 @@ class Movie_Comment(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User', back_populates='movie_comments')
+
+
+class Music_Comment(db.Model, SerializerMixin):
+    __tablename__ = 'music_comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    stars = db.Column(db.Integer)
+    content = db.Column(db.String)
+
+    music_id = db.Column(db.Integer, db.ForeignKey('musics.id'))
+
+    music = db.relationship('Music', back_populates='movie_comments')
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates='music_comments')
+
+
