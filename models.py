@@ -28,6 +28,11 @@ class User(db.Model, SerializerMixin):
     
     new_invites = association_proxy('invitations', 'group',
                                  creator=lambda project_obj: Invitation(project=project_obj))
+    
+    movies = association_proxy('movie_comments', 'movie',
+                                 creator=lambda project_obj: Movie_Comment(project=project_obj))
+    movie_comments = db.relationship(
+        'Movie_Comment', back_populates='user', cascade='all, delete-orphan')
 
     @hybrid_property
     def password_hash(self):
@@ -129,6 +134,12 @@ class Movie(db.Model, SerializerMixin):
 
     group = db.relationship('Group', back_populates='movies')
 
+    movie_comments = db.relationship(
+        'Movie_Comment', back_populates='Movie', cascade='all, delete-orphan')
+    
+    users = association_proxy('memberships', 'user',
+                                 creator=lambda project_obj: Movie_Comment(project=project_obj))
+
 
 class Music(db.Model, SerializerMixin):
     __tablename__ = 'musics'
@@ -158,3 +169,19 @@ class Book(db.Model, SerializerMixin):
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
     group = db.relationship('Group', back_populates='books')
+
+
+class Movie_Comment(db.Model, SerializerMixin):
+    __tablename__ = 'movie_comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    stars = db.Column(db.Integer)
+    content = db.Column(db.String)
+
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'))
+
+    movie = db.relationship('Movie', back_populates='movie_comments')
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates='movie_comments')
