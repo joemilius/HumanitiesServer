@@ -40,6 +40,17 @@ class SignUp(Resource):
             return user.to_dict(), 201
         except IntegrityError:
             return {'error': '422 Unprocessable Entity'}, 422
+        
+class CheckSession(Resource):
+
+    def get(self):
+        
+        user_id = session['user_id']
+        if user_id:
+            user = User.query.filter(User.id == user_id).first()
+            return user.to_dict(), 200
+        
+        return {}, 401
 
 
 if __name__ == '__main__':
