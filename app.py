@@ -70,6 +70,14 @@ class Login(Resource):
                 return user.to_dict(), 200
 
         return {'error': '401 Unauthorized'}, 401
+    
+class Logout(Resource):
+
+    def delete(self):
+
+        session['user_id'] = None
+        
+        return {}, 204
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
