@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, session
+from flask import request, session, make_response
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
@@ -78,6 +78,16 @@ class Logout(Resource):
         session['user_id'] = None
         
         return {}, 204
+    
+class GroupInfo(Resource):
+
+    def get(self):
+        groups = [group.to_dict() for group in Group.query.all()]
+
+        return make_response(groups, 200)
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
