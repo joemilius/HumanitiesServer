@@ -79,7 +79,7 @@ class Logout(Resource):
         
         return {}, 204
     
-class GroupInfo(Resource):
+class AllGroups(Resource):
 
     def get(self):
         groups = [group.to_dict() for group in Group.query.all()]
@@ -87,7 +87,7 @@ class GroupInfo(Resource):
         return make_response(groups, 200)
 
 
-
+api.add_resource(AllGroups, "/groups")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
