@@ -89,5 +89,8 @@ class AllGroups(Resource):
 
 api.add_resource(AllGroups, "/groups")
 
+app.add_resource(Login, "/login")
+
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
