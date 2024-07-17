@@ -103,5 +103,9 @@ api.add_resource(AllGroups, "/groups")
 api.add_resource(AllMovies, "/movies")
 api.add_resource(SignUp,"/signup")
 
+
+api.add_resource(Logout, "/logout")
+
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
