@@ -40,6 +40,8 @@ class SignUp(Resource):
             return user.to_dict(), 201
         except IntegrityError:
             return {'error': '422 Unprocessable Entity'}, 422
+        
+api.add_resource(SignUp,"/signup")
 
 
 if __name__ == '__main__':
