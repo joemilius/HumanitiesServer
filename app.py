@@ -85,12 +85,20 @@ class AllGroups(Resource):
         groups = [group.to_dict() for group in Group.query.all()]
 
         return make_response(groups, 200)
+    
+class AllMovies(Resource):
+
+    def get(self):
+        movies = [movie.to_dict() for movie in Movie.query.all()]
+
+        return make_response(movies, 200)
 
 
+
+
+api.add_resource(Login, "/login")
 api.add_resource(AllGroups, "/groups")
-
-app.add_resource(Login, "/login")
-
+api.add_resource(AllMovies, "/movies")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
