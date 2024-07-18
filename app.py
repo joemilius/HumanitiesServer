@@ -53,5 +53,7 @@ class CheckSession(Resource):
         return {}, 401
 
 
+api.add_resource(CheckSession, "/check-session")
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
