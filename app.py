@@ -107,5 +107,7 @@ api.add_resource(SignUp,"/signup")
 api.add_resource(Logout, "/logout")
 
 
+api.add_resource(CheckSession, "/check-session")
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
