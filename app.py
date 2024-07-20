@@ -97,17 +97,13 @@ class AllMovies(Resource):
 
 
 
-
+api.add_resource(SignUp,"/signup")
 api.add_resource(Login, "/login")
+api.add_resource(CheckSession, "/check-session")
+api.add_resource(Logout, "/logout")
 api.add_resource(AllGroups, "/groups")
 api.add_resource(AllMovies, "/movies")
-api.add_resource(SignUp,"/signup")
 
-
-api.add_resource(Logout, "/logout")
-
-
-api.add_resource(CheckSession, "/check-session")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

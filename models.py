@@ -11,8 +11,8 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-memberships.user',
-        'invitations.user',
-        'groups.users',
+        '-invitations.user',
+        '-groups.users',
         '-new_invites.user',
         '-movies.users',
         '-music.users',
