@@ -78,7 +78,7 @@ class Group(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-memberships.group',
-        '-users.group',
+        '-users.groups',
         '-invitations.group',
         '-new_invites.group',
         '-activities.group',
@@ -140,8 +140,8 @@ class Invitation(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-    user = db.relationship('User', back_populates='memberships')
-    group = db.relationship('Group', back_populates='memberships')
+    user = db.relationship('User', back_populates='invitations')
+    group = db.relationship('Group', back_populates='invitations')
 
 
 class Activity(db.Model, SerializerMixin):
@@ -179,7 +179,7 @@ class Movie(db.Model, SerializerMixin):
     group = db.relationship('Group', back_populates='movies')
 
     movie_comments = db.relationship(
-        'Movie_Comment', back_populates='Movie', cascade='all, delete-orphan')
+        'Movie_Comment', back_populates='movie', cascade='all, delete-orphan')
     
     users = association_proxy('movies', 'user',
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
@@ -199,10 +199,10 @@ class Music(db.Model, SerializerMixin):
 
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-    group = db.relationship('Group', back_populates='musics')
+    group = db.relationship('Group', back_populates='music')
 
     music_comments = db.relationship(
-        'Music_Comment', back_populates='Music', cascade='all, delete-orphan')
+        'Music_Comment', back_populates='music', cascade='all, delete-orphan')
     
     users = association_proxy('music_comments', 'user',
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
@@ -225,7 +225,7 @@ class Book(db.Model, SerializerMixin):
     group = db.relationship('Group', back_populates='books')
 
     book_comments = db.relationship(
-        'Book_Comment', back_populates='Movie', cascade='all, delete-orphan')
+        'Book_Comment', back_populates='book', cascade='all, delete-orphan')
     
     users = association_proxy('books_commnets', 'user',
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
@@ -260,7 +260,7 @@ class Music_Comment(db.Model, SerializerMixin):
 
     music_id = db.Column(db.Integer, db.ForeignKey('musics.id'))
 
-    music = db.relationship('Music', back_populates='movie_comments')
+    music = db.relationship('Music', back_populates='music_comments')
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 

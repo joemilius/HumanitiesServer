@@ -84,9 +84,16 @@ class Logout(Resource):
 class AllGroups(Resource):
 
     def get(self):
-        groups = [group.to_dict() for group in Group.query.all()]
+        groups = [group.to_dict(only='group_name') for group in Group.query.all()]
 
         return make_response(groups, 200)
+    
+class OneGroup(Resource):
+
+    def get(self, id):
+        group = Group.query.filter_by(id=id).first()
+
+        return make_response(group.to_dict(), 200)
     
 class AllMovies(Resource):
 
@@ -102,6 +109,7 @@ api.add_resource(Login, "/login")
 api.add_resource(CheckSession, "/check-session")
 api.add_resource(Logout, "/logout")
 api.add_resource(AllGroups, "/groups")
+api.add_resource(OneGroup, "/groups/<int:id>")
 api.add_resource(AllMovies, "/movies")
 
 
