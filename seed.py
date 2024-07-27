@@ -27,3 +27,14 @@ user3 = User(
     password='1234'
 )
 
+group1 = Group(
+    group_name="Loony Tunes"
+)
+
+group2 = Group(
+    group_name="Space Lake"
+)
+
+group3 = Group(
+    group_name="Marvel"
+)
