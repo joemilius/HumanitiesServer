@@ -59,3 +59,33 @@ membership4 = Membership(
     user_id=user2.id,
     group_id=group3.id
 )
+
+movie1 = Movie(
+    title='Avengers',
+    image='alt',
+    year='2012',
+    director='Joss Whedon',
+    cast='Robert Downy Jr.',
+    description='Superheros save the world',
+    group_id=group3.id
+)
+
+movie2 = Movie(
+    title='SpaceJam',
+    image='alt',
+    year='2012',
+    director='Joss Whedon',
+    cast='Micheal Jordan',
+    description='Basketball saves the world',
+    group_id=group1.id
+)
+
+movie3 = Movie(
+    title='Wolverine',
+    image='alt',
+    year='2012',
+    director='Joss Whedon',
+    cast='Hugh Jackman',
+    description='Angsty superhero faces being an outcast',
+    group_id=group3.id
+)
