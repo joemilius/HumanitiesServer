@@ -38,3 +38,24 @@ group2 = Group(
 group3 = Group(
     group_name="Marvel"
 )
+
+membership1 = Membership(
+    admin=True,
+    user_id=user1.id,
+    group_id=group1.id
+)
+membership2 = Membership(
+    admin=True,
+    user_id=user2.id,
+    group_id=group2.id
+)
+membership3 = Membership(
+    admin=True,
+    user_id=user3.id,
+    group_id=group3.id
+)
+membership4 = Membership(
+    admin=False,
+    user_id=user2.id,
+    group_id=group3.id
+)
