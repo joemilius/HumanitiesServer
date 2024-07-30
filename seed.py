@@ -87,5 +87,32 @@ movie3 = Movie(
     director='Joss Whedon',
     cast='Hugh Jackman',
     description='Angsty superhero faces being an outcast',
+    group_id=group2.id
+)
+
+music1 = Music(
+    artist_name = "Radiohead",
+    album_name = "Kid A",
+    image = 'alt',
+    year = '2003',
+    description = 'follow up to OK Computer',
+    group_id=group2.id
+)
+
+music2 = Music(
+    artist_name = "Portishead",
+    album_name = "I'm a woman",
+    image = 'alt',
+    year = '1995',
+    description = 'triphop',
     group_id=group3.id
+)
+
+music1 = Music(
+    artist_name = "Taylor Swift",
+    album_name = "Red",
+    image = 'alt',
+    year = '2003',
+    description = 'pop',
+    group_id=group1.id
 )
