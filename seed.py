@@ -108,11 +108,34 @@ music2 = Music(
     group_id=group3.id
 )
 
-music1 = Music(
+music3 = Music(
     artist_name = "Taylor Swift",
     album_name = "Red",
     image = 'alt',
     year = '2003',
     description = 'pop',
     group_id=group1.id
+)
+
+book1 = Book(
+    title = 'Catch 22',
+    author = 'Joseph Heller',
+    image = 'alt',
+    description = 'the absurdity of war',
+    group_id=group1.id
+)
+
+book2 = Book(
+    title = 'Foundation',
+    author = 'Isaac Asimov',
+    image = 'alt',
+    description = 'sci-fi predictive measures ensure the continuation of civilization',
+    group_id=group2.id
+)
+book3 = Book(
+    title = 'Superfolks',
+    author = 'Robert Mayer',
+    image = 'alt',
+    description = 'what happens to superheros as they age',
+    group_id=group3.id
 )
