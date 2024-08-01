@@ -1,5 +1,5 @@
-from models import User, Group, Membership, Invitation, Movie, Book, Music, Movie_Comment, Book_Comment, Music_Comment
-
+from models import db, User, Group, Membership, Invitation, Movie, Book, Music, Movie_Comment, Book_Comment, Music_Comment
+from app import app
 user1 = User(
     username='bugsy',
     email='bugsbunny@gmail.com',
@@ -26,6 +26,7 @@ user3 = User(
     logins=4,
     password='1234'
 )
+
 
 group1 = Group(
     group_name="Loony Tunes"
@@ -139,3 +140,24 @@ book3 = Book(
     description = 'what happens to superheros as they age',
     group_id=group3.id
 )
+
+db.session.add(user1)
+db.session.add(user2)
+db.session.add(user3)
+db.session.add(group1)
+db.session.add(group2)
+db.session.add(group3)
+db.session.add(membership1)
+db.session.add(membership2)
+db.session.add(membership3)
+db.session.add(membership4)
+db.session.add(movie1)
+db.session.add(movie2)
+db.session.add(movie3)
+db.session.add(music1)
+db.session.add(music2)
+db.session.add(music3)
+db.session.add(book1)
+db.session.add(book2)
+db.session.add(book3)
+db.session.commit()
