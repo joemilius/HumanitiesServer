@@ -25,7 +25,7 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
-    first_name = db.column(db.String)
+    first_name = db.Column(db.String)
     last_name = db.Column(db.String)
     logins = db.Column(db.Integer)
     _password_hash = db.Column(db.String, nullable=False)
