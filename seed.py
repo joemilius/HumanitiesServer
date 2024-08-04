@@ -187,5 +187,21 @@ with app.app_context():
     db.session.add(book2)
     db.session.add(book3)
 
+    print("Creating Invitations ...")
+
+    invitation1 = Invitation(
+        message = "I would like to join",
+        accepted = False,
+        user = user1,
+        group = group3
+    )
+
+    invitation2 = Invitation(
+        message = "I would like to join",
+        accepted = False,
+        user = user3,
+        group = group1
+    )
+
     db.session.commit()
     print("Seeding Complete")
