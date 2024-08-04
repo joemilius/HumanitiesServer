@@ -203,5 +203,32 @@ with app.app_context():
         group = group1
     )
 
+    db.session.add(invitation1)
+    db.session.add(invitation2)
+
+    print("Creating Movie_Comments ... ")
+
+    movie_comment1 = Movie_Comment(
+        stars=5,
+        movie=movie2,
+        user=user1
+    )
+
+    movie_comment2 = Movie_Comment(
+        stars=5,
+        movie=movie1,
+        user=user3
+    )
+    movie_comment3 = Movie_Comment(
+        stars=5,
+        movie=movie3,
+        user=user2
+    )
+
+    db.session.add(movie_comment1)
+    db.session.add(movie_comment2)
+    db.session.add(movie_comment3)
+
+
     db.session.commit()
     print("Seeding Complete")
