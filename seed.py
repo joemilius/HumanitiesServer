@@ -229,6 +229,33 @@ with app.app_context():
     db.session.add(movie_comment2)
     db.session.add(movie_comment3)
 
+    print("Creating Music_Comments ...")
+
+    music_comment1 = Music_Comment(
+        stars=4,
+        content='Super good',
+        music=music1,
+        user=user2
+    )
+
+    music_comment2 = Music_Comment(
+        stars=4,
+        content='Super good',
+        music=music2,
+        user=user3
+    )
+
+    music_comment3 = Music_Comment(
+        stars=4,
+        content='Super good',
+        music=music3,
+        user=user1
+    )
+
+    db.session.add(movie_comment1)
+    db.session.add(movie_comment2)
+    db.session.add(movie_comment3)
+
 
     db.session.commit()
     print("Seeding Complete")
