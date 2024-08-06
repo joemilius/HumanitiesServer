@@ -256,6 +256,33 @@ with app.app_context():
     db.session.add(movie_comment2)
     db.session.add(movie_comment3)
 
+    print("Creating book_comments ...")
+
+    book_comment1 = Book_Comment(
+        stars=4,
+        content='Super good',
+        book=book1,
+        user=user1
+    )
+
+    book_comment2 = Book_Comment(
+        stars=4,
+        content='Super good',
+        book=book2,
+        user=user2
+    )
+
+    book_comment3 = Book_Comment(
+        stars=4,
+        content='Super good',
+        book=book3,
+        user=user3
+    )
+
+    db.session.add(book_comment1)
+    db.session.add(book_comment2)
+    db.session.add(book_comment3)
+
 
     db.session.commit()
     print("Seeding Complete")
