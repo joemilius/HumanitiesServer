@@ -252,11 +252,11 @@ with app.app_context():
         user=user1
     )
 
-    db.session.add(movie_comment1)
-    db.session.add(movie_comment2)
-    db.session.add(movie_comment3)
+    db.session.add(music_comment1)
+    db.session.add(music_comment2)
+    db.session.add(music_comment3)
 
-    print("Creating book_comments ...")
+    print("Creating Book_Comments ...")
 
     book_comment1 = Book_Comment(
         stars=4,
