@@ -13,7 +13,7 @@ class User(db.Model, SerializerMixin):
         '-memberships.user',
         '-invitations.user',
         '-groups.users',
-        '-new_invites.user',
+        '-groups.invitations'
         '-movies.users',
         '-music.users',
         '-books.users',
@@ -39,8 +39,8 @@ class User(db.Model, SerializerMixin):
     groups = association_proxy('memberships', 'group',
                                  creator=lambda project_obj: Membership(project=project_obj))
     
-    new_invites = association_proxy('invitations', 'group',
-                                 creator=lambda project_obj: Invitation(project=project_obj))
+    # new_invites = association_proxy('invitations', 'group',
+    #                              creator=lambda project_obj: Invitation(project=project_obj))
     
     movies = association_proxy('movie_comments', 'movie',
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
@@ -78,13 +78,30 @@ class Group(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-memberships.group',
+        '-memberships.user.memberships',
+        '-memberships.user.invitations',
+        '-memberships.user.movie_comments',
+        '-memberships.user.music_comments',
+        '-memberships.user.book_comments',
         '-users.groups',
+        '-users.memberships',
+        '-users.invitations',
+        '-users.movie_comments',
+        '-users.music_comments',
+        '-users.book_comments',
         '-invitations.group',
-        '-new_invites.group',
+        '-invitations.user.invitations',
+        '-invitations.user.memberships',
+        '-invitations.user.movie_comments',
+        '-invitations.user.music_comments',
+        '-invitations.user.book_comments',
         '-activities.group',
         '-movies.group',
         '-music.group',
-        '-books.group'
+        '-books.group',
+        '-movies.movie_comments.user',
+        '-music.music_comments.user',
+        '-books.book_comments.user',
     )
 
     id = db.Column(db.Integer, primary_key=True)
@@ -98,9 +115,6 @@ class Group(db.Model, SerializerMixin):
     
     invitations = db.relationship(
         'Invitation', back_populates='group', cascade='all, delete-orphan')
-    
-    new_invites = association_proxy('invitations', 'user',
-                                 creator=lambda project_obj: Invitation(project=project_obj))
     
     activities = db.relationship(
         'Activity', back_populates='group', cascade='all, delete-orphan')
@@ -164,7 +178,7 @@ class Activity(db.Model, SerializerMixin):
 class Movie(db.Model, SerializerMixin):
     __tablename__ = 'movies'
 
-    serialize_rules = ('-group.movie', '-movie_comments.movie', '-users.movie',)
+    serialize_rules = ('-group.movies', '-movie_comments.movie', '-users.movies',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -188,7 +202,7 @@ class Movie(db.Model, SerializerMixin):
 class Music(db.Model, SerializerMixin):
     __tablename__ = 'musics'
 
-    serialize_rules = ('-group.music', '-music_comments.music', 'users.music',)
+    serialize_rules = ('-group.music', '-music_comments.music', '-users.music')
 
     id = db.Column(db.Integer, primary_key=True)
     artist_name = db.Column(db.String)
@@ -212,7 +226,7 @@ class Music(db.Model, SerializerMixin):
 class Book(db.Model, SerializerMixin):
     __tablename__ = 'books'
 
-    serialize_rules = ('-group.book', '-book_commnets.book', '-users.book',)
+    serialize_rules = ('-group.books', '-book_comments.book', '-users.books',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -234,7 +248,7 @@ class Book(db.Model, SerializerMixin):
 class Movie_Comment(db.Model, SerializerMixin):
     __tablename__ = 'movie_comments'
 
-    serialize_rules = ('-movies.movie_comments', '-user.movie_comments',)
+    serialize_rules = ('-movies.movie_comments', '-user.movie_comment',)
 
     id = db.Column(db.Integer, primary_key=True)
     stars = db.Column(db.Integer)
