@@ -17,7 +17,7 @@ with app.app_context():
         first_name='Bugs',
         last_name="Bunny",
         logins=1,
-        password_hash='1234'
+        password='1234'
     )
 
     user2 = User(
@@ -26,7 +26,7 @@ with app.app_context():
         first_name='Howard',
         last_name='Duck',
         logins=3,
-        password_hash='1234',
+        password='1234',
     )
 
     user3 = User(
@@ -35,7 +35,7 @@ with app.app_context():
         first_name='Peter',
         last_name='Parker',
         logins=4,
-        password_hash='1234'
+        password='1234'
     )
     
     db.session.add(user1)
