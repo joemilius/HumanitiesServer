@@ -64,7 +64,7 @@ class Login(Resource):
         password = request_json.get('password')
 
         user = User.query.filter(User.username == username).first()
-
+        
         if user:
             if user.authenticate(password):
 
