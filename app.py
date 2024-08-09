@@ -95,12 +95,68 @@ class OneGroup(Resource):
 
         return make_response(group.to_dict(), 200)
     
+class OneMembership(Resource):
+
+    def get(self, id):
+        membership = Membership.query.filter_by(id=id).first()
+
+        return make_response(membership.to_dict(), 200)
+    
+class OneInvitation(Resource):
+
+    def get(self, id):
+        invitation = Invitation.query.filter_by(id=id).first()
+
+        return make_response(invitation.to_dict(), 200)
+    
+class OneMovie(Resource):
+
+    def get(self, id):
+        movie = Movie.query.filter_by(id=id).first()
+
+        return make_response(movie.to_dict(), 200)
+    
 class AllMovies(Resource):
 
     def get(self):
         movies = [movie.to_dict() for movie in Movie.query.all()]
 
         return make_response(movies, 200)
+    
+class OneMusic(Resource):
+
+    def get(self, id):
+        music = Music.query.filter_by(id=id).first()
+
+        return make_response(music.to_dict(), 200)
+    
+class OneBook(Resource):
+
+    def get(self, id):
+        book = Book.query.filter_by(id=id).first()
+
+        return make_response(book.to_dict(), 200)
+    
+class OneMovieComment(Resource):
+
+    def get(self, id):
+        movie_comment = Movie_Comment.query.filter_by(id=id).first()
+
+        return make_response(movie_comment.to_dict(), 200)
+    
+class OneMusicComment(Resource):
+
+    def get(self, id):
+        music_comment = Music_Comment.query.filter_by(id=id).first()
+
+        return make_response(music_comment.to_dict(), 200)
+    
+class OneBookComment(Resource):
+
+    def get(self, id):
+        book_comment = Book_Comment.query.filter_by(id=id).first()
+
+        return make_response(book_comment.to_dict(), 200)
 
 
 
@@ -110,7 +166,15 @@ api.add_resource(CheckSession, "/check-session")
 api.add_resource(Logout, "/logout")
 api.add_resource(AllGroups, "/groups")
 api.add_resource(OneGroup, "/groups/<int:id>")
+api.add_resource(OneMembership, "/memberships/<int:id>")
+api.add_resource(OneInvitation, "/invitations/<int:id>")
+api.add_resource(OneMovie, "/movies/<int:id>")
 api.add_resource(AllMovies, "/movies")
+api.add_resource(OneMusic, "/music/<int:id>")
+api.add_resource(OneBook, "/books/<int:id>")
+api.add_resource(OneMovieComment, "/moviecomments/<int:id>")
+api.add_resource(OneMusicComment, "/musiccomments/<int:id>")
+api.add_resource(OneBookComment, "/bookcomments/<int:id>")
 
 
 if __name__ == '__main__':
