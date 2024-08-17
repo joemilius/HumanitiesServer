@@ -210,17 +210,20 @@ with app.app_context():
 
     movie_comment1 = Movie_Comment(
         stars=5,
+        content='Super good',
         movie=movie2,
         user=user1
     )
 
     movie_comment2 = Movie_Comment(
         stars=5,
+        content='Super good',
         movie=movie1,
         user=user3
     )
     movie_comment3 = Movie_Comment(
         stars=5,
+        content='Super good',
         movie=movie3,
         user=user2
     )
