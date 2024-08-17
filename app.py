@@ -57,7 +57,7 @@ class CheckSession(Resource):
 class Login(Resource):
     
     def post(self):
-
+        
         request_json = request.get_json()
 
         username = request_json.get('username')
@@ -161,7 +161,7 @@ class OneBookComment(Resource):
 
 
 api.add_resource(SignUp,"/signup")
-api.add_resource(Login, "/login")
+api.add_resource(Login, "/login", endpoint='/api/login')
 api.add_resource(CheckSession, "/check-session")
 api.add_resource(Logout, "/logout")
 api.add_resource(AllGroups, "/groups")
