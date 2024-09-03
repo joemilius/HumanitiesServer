@@ -1,4 +1,4 @@
-from models import db, User, Group, Membership, Invitation, Movie, Book, Music, Movie_Comment, Book_Comment, Music_Comment
+from models import db, User, Group, Membership, Invitation, Movie, Book, Music, Movie_Comment, Book_Comment, Music_Comment, My_Movie, My_Music, My_Book
 from app import app
 
 with app.app_context():
@@ -9,6 +9,8 @@ with app.app_context():
     Movie.query.delete()
     Music.query.delete()
     Book.query.delete()
+    
+
 
     print("Creating Users ...")
     user1 = User(
@@ -286,6 +288,103 @@ with app.app_context():
     db.session.add(book_comment2)
     db.session.add(book_comment3)
 
+    print("Creating My_Movies ...")
+
+    my_movie1 = My_Movie(
+        title='Avengers',
+        image='alt',
+        year='2012',
+        director='Joss Whedon',
+        cast='Robert Downey Jr.',
+        description='superheroes save the world',
+        user=user1
+    )
+
+    my_movie2 = My_Movie(
+        title='SpaceJam',
+        image='alt',
+        year='2012',
+        director='Joss Whedon',
+        cast='Micheal Jordan',
+        description='Basketball saves the world',
+        user=user2
+    )
+
+    my_movie3 = My_Movie(
+        title='SpaceJam',
+        image='alt',
+        year='2012',
+        director='Joss Whedon',
+        cast='Micheal Jordan',
+        description='Basketball saves the world',
+        user=user3
+    )
+
+    db.session.add(my_movie1)
+    db.session.add(my_movie2)
+    db.session.add(my_movie3)
+
+    print("Creating My_Music ...")
+
+    my_music1 = My_Music(
+        artist_name = "Taylor Swift",
+        album_name = "Red",
+        image = 'alt',
+        year = '2003',
+        description = 'pop',
+        user=user1
+    )
+
+    my_music2 = My_Music(
+        artist_name = "Radiohead",
+        album_name = "Amnesiac",
+        image = 'alt',
+        year = '2003',
+        description = 'pop',
+        user=user2
+    )
+
+    my_music3 = My_Music(
+        artist_name = "Cold War Kids",
+        album_name = "Hang Me Up",
+        image = 'alt',
+        year = '2003',
+        description = 'pop',
+        user=user3
+    )
+
+    db.session.add(my_music1)
+    db.session.add(my_music2)
+    db.session.add(my_music3)
+
+    print("Creating Books ...")
+
+    my_book1 = My_Book(
+        title = 'Dune',
+        author = 'Frank Herbert',
+        image = 'alt',
+        description = 'future on a desert planet Arrakis',
+        user=user1
+    )
+
+    my_book2 = My_Book(
+        title = 'The Hobbit',
+        author = 'J.R.R. Tolkien',
+        image = 'alt',
+        description = 'adventure of an unlikely hero',
+        user=user2
+    )
+    my_book3 = My_Book(
+        title = 'Guide to the Galaxy',
+        author = 'Douglas Adams',
+        image = 'alt',
+        description = 'sci-fi farce',
+        user=user3
+    )
+
+    db.session.add(my_book1)
+    db.session.add(my_book2)
+    db.session.add(my_book3)
 
     db.session.commit()
     print("Seeding Complete")
