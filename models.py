@@ -35,6 +35,9 @@ class User(db.Model, SerializerMixin):
         '-movie_comments.movie.movie_comments',
         '-music_comments.music.music_comments',
         '-book_comments.book.book_comments',
+        '-my_movies.user',
+        '-my_music.user',
+        '-my_books.user'
     )
 
     id = db.Column(db.Integer, primary_key=True)
@@ -71,6 +74,15 @@ class User(db.Model, SerializerMixin):
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
     book_comments = db.relationship(
         'Book_Comment', back_populates='user', cascade='all, delete-orphan')
+    
+    my_movies = db.relationship(
+        'My_Movie', back_populates='user', cascade='all, delete-orphan')
+    
+    my_music = db.relationship(
+        'My_Music', back_populates='user', cascade='all, delete-orphan')
+    
+    my_books = db.relationship(
+        'My_Book', back_populates='user', cascade='all, delete-orphan')
 
     @hybrid_property
     def password(self):
@@ -311,3 +323,52 @@ class Book_Comment(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User', back_populates='book_comments')
+
+class My_Movie(db.Model, SerializerMixin):
+    __tablename__ = 'my_movies'
+
+    serialize_rules= ('user.my_movies')
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    image = db.Column(db.String)
+    year = db.Column(db.Integer)
+    director = db.Column(db.String)
+    cast = db.Column(db.String)
+    description = db.Column(db.String)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates='my_movies')
+
+class My_Music(db.Model, SerializerMixin):
+    __tablename__ = 'my_music'
+
+    serialize_rules= ('user.my_music')
+
+    id = db.Column(db.Integer, primary_key=True)
+    artist_name = db.Column(db.String)
+    album_name = db.Column(db.String)
+    image = db.Column(db.String)
+    year = db.Column(db.Integer)
+    description = db.Column(db.String)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates='my_music')
+
+class My_Book(db.Model, SerializerMixin):
+    __tablename__ = 'my_books'
+
+    serialize_rules= ('user.my_books')
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    author = db.Column(db.String)
+    image = db.Column(db.String)
+    description = db.Column(db.String)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates='my_books')
+

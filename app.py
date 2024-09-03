@@ -160,10 +160,10 @@ class OneBookComment(Resource):
 
 
 
-api.add_resource(SignUp,"/signup")
+api.add_resource(SignUp,"/signup", endpoint='api/signup')
 api.add_resource(Login, "/login", endpoint='/api/login')
-api.add_resource(CheckSession, "/check-session")
-api.add_resource(Logout, "/logout")
+api.add_resource(CheckSession, "/check-session", endpoint='api/check-session')
+api.add_resource(Logout, "/logout", endpoint='/api/logout')
 api.add_resource(AllGroups, "/groups")
 api.add_resource(OneGroup, "/groups/<int:id>")
 api.add_resource(OneMembership, "/memberships/<int:id>")
