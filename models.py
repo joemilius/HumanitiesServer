@@ -244,6 +244,9 @@ class Music(db.Model, SerializerMixin):
     music_comments = db.relationship(
         'Music_Comment', back_populates='music', cascade='all, delete-orphan')
     
+    songs = db.relationship(
+        'Song', back_populates='album', cascade='all, delete-orphan')
+    
     users = association_proxy('music_comments', 'user',
                                  creator=lambda project_obj: Movie_Comment(project=project_obj))
 
@@ -327,7 +330,7 @@ class Book_Comment(db.Model, SerializerMixin):
 class My_Movie(db.Model, SerializerMixin):
     __tablename__ = 'my_movies'
 
-    serialize_rules= ('user.my_movies')
+    serialize_rules= ('user.my_movies',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -344,7 +347,7 @@ class My_Movie(db.Model, SerializerMixin):
 class My_Music(db.Model, SerializerMixin):
     __tablename__ = 'my_music'
 
-    serialize_rules= ('user.my_music')
+    serialize_rules= ('user.my_music',)
 
     id = db.Column(db.Integer, primary_key=True)
     artist_name = db.Column(db.String)
@@ -360,7 +363,7 @@ class My_Music(db.Model, SerializerMixin):
 class My_Book(db.Model, SerializerMixin):
     __tablename__ = 'my_books'
 
-    serialize_rules= ('user.my_books')
+    serialize_rules= ('user.my_books',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -372,3 +375,15 @@ class My_Book(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='my_books')
 
+class Song(db.Model, SerializerMixin):
+    __tablename__ = 'songs'
+
+    serialize_rules = ('-album.songs',)
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    run_time = db.Column(db.String)
+
+    music_id = db.Column(db.Integer, db.ForeignKey('musics.id'))
+
+    album = db.relationship('Music', back_populates='songs')
