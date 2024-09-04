@@ -1,4 +1,4 @@
-from models import db, User, Group, Membership, Invitation, Movie, Book, Music, Movie_Comment, Book_Comment, Music_Comment, My_Movie, My_Music, My_Book
+from models import db, User, Group, Membership, Invitation, Movie, Book, Music, Movie_Comment, Book_Comment, Music_Comment, My_Movie, My_Music, My_Book, Song
 from app import app
 
 with app.app_context():
@@ -138,7 +138,7 @@ with app.app_context():
 
     music2 = Music(
         artist_name = "Portishead",
-        album_name = "I'm a woman",
+        album_name = "Dummy",
         image = 'alt',
         year = '1995',
         description = 'triphop',
@@ -357,7 +357,7 @@ with app.app_context():
     db.session.add(my_music2)
     db.session.add(my_music3)
 
-    print("Creating Books ...")
+    print("Creating My_Books ...")
 
     my_book1 = My_Book(
         title = 'Dune',
@@ -385,6 +385,30 @@ with app.app_context():
     db.session.add(my_book1)
     db.session.add(my_book2)
     db.session.add(my_book3)
+
+    print("Creating Songs ...")
+
+    song1 = Song(
+        name='How to Disappear Completely',
+        run_time = '5:56',
+        album=music1
+    )
+
+    song2 = Song(
+        name='Glory Box',
+        run_time = '5:08',
+        album=music2
+    )
+
+    song3 = Song(
+        name='Red',
+        run_time = '3:41',
+        album=music3
+    )
+
+    db.session.add(song1)
+    db.session.add(song2)
+    db.session.add(song3)
 
     db.session.commit()
     print("Seeding Complete")
