@@ -157,6 +157,27 @@ class OneBookComment(Resource):
         book_comment = Book_Comment.query.filter_by(id=id).first()
 
         return make_response(book_comment.to_dict(), 200)
+    
+class MusicComment(Resource):
+
+    def post(self):
+        data = request.get_json()
+
+        new_music_comment = Music_Comment(
+            stars = data.get('stars'),
+            content = data.get('data'),
+            music_id = data.get('music_id'),
+            user_id = data.get('user_id')
+        )
+
+        try:
+            db.session.add(new_music_comment)
+            db.session.commit()
+
+            return new_music_comment.to_dict(), 200
+        except IntegrityError:
+            return {'error': '422 Unprocessable Entity'}, 422
+
 
 
 
@@ -170,6 +191,7 @@ api.add_resource(OneMembership, "/memberships/<int:id>")
 api.add_resource(OneInvitation, "/invitations/<int:id>")
 api.add_resource(OneMovie, "/movies/<int:id>")
 api.add_resource(AllMovies, "/movies")
+api.add_resource(Music_Comment, "/music-comments", endpoint='api/music-comments')
 api.add_resource(OneMusic, "/music/<int:id>")
 api.add_resource(OneBook, "/books/<int:id>")
 api.add_resource(OneMovieComment, "/moviecomments/<int:id>")
