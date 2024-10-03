@@ -177,6 +177,46 @@ class MusicComment(Resource):
             return new_music_comment.to_dict(), 200
         except IntegrityError:
             return {'error': '422 Unprocessable Entity'}, 422
+        
+class MovieComment(Resource):
+
+    def post(self):
+        data = request.get_json()
+
+        new_movie_comment = Movie_Comment(
+            stars = data.get('stars'),
+            content = data.get('data'),
+            movie_id = data.get('movie_id'),
+            user_id = data.get('user_id')
+        )
+
+        try:
+            db.session.add(new_movie_comment)
+            db.session.commit()
+
+            return new_movie_comment.to_dict(), 200
+        except IntegrityError:
+            return {'error': '422 Unprocessable Entity'}, 422
+        
+class BookComment(Resource):
+
+    def post(self):
+        data = request.get_json()
+
+        new_book_comment = Music_Comment(
+            stars = data.get('stars'),
+            content = data.get('data'),
+            music_id = data.get('book_id'),
+            user_id = data.get('user_id')
+        )
+
+        try:
+            db.session.add(new_book_comment)
+            db.session.commit()
+
+            return new_book_comment.to_dict(), 200
+        except IntegrityError:
+            return {'error': '422 Unprocessable Entity'}, 422
 
 
 
@@ -192,6 +232,8 @@ api.add_resource(OneInvitation, "/invitations/<int:id>")
 api.add_resource(OneMovie, "/movies/<int:id>")
 api.add_resource(AllMovies, "/movies")
 api.add_resource(Music_Comment, "/music-comments", endpoint='api/music-comments')
+api.add_resource(Movie_Comment, "/movie-comments", endpoint='api/movie-comments')
+api.add_resource(Book_Comment, "/book-comments", endpoint='api/book-comments')
 api.add_resource(OneMusic, "/music/<int:id>")
 api.add_resource(OneBook, "/books/<int:id>")
 api.add_resource(OneMovieComment, "/moviecomments/<int:id>")
