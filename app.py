@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Membership, Group, Invitation, Activity, Music, Movie, Book, Music_Comment, Movie_Comment, Book_Comment
+from models import User, Membership, Group, Invitation, Activity, Music, Movie, Book, Music_Comment, Movie_Comment, Book_Comment, My_Movie, My_Book, My_Music
 
 # Views go here!
 
@@ -123,6 +123,28 @@ class AllMovies(Resource):
 
         return make_response(movies, 200)
     
+class MyMovies(Resource):
+    def post():
+        data = request.get_json()
+    
+        new_movie = My_Movie(
+            title = data.get('title'),
+            image = data.get('image'),
+            year = data.get('year'),
+            director = data.get('director'),
+            cast = data.get('cast'),
+            description = data.get('description'),
+            user_id = session.get('user_id')
+        )
+
+        try:
+            db.session.add(new_movie)
+            db.session.commit()
+
+            return new_movie.to_dict(), 200
+        except IntegrityError:
+            return {'error': '422 Unprocessable Entity'}, 422
+    
 class OneMusic(Resource):
 
     def get(self, id):
@@ -166,7 +188,7 @@ class MusicComment(Resource):
         new_music_comment = Music_Comment(
             stars = data.get('stars'),
             content = data.get('data'),
-            music_id = data.get('music_id'),
+            music_id = data.get('media_id'),
             user_id = data.get('user_id')
         )
 
@@ -186,7 +208,7 @@ class MovieComment(Resource):
         new_movie_comment = Movie_Comment(
             stars = data.get('stars'),
             content = data.get('data'),
-            movie_id = data.get('movie_id'),
+            movie_id = data.get('media_id'),
             user_id = data.get('user_id')
         )
 
@@ -206,7 +228,7 @@ class BookComment(Resource):
         new_book_comment = Music_Comment(
             stars = data.get('stars'),
             content = data.get('data'),
-            music_id = data.get('book_id'),
+            music_id = data.get('media_id'),
             user_id = data.get('user_id')
         )
 
@@ -217,6 +239,8 @@ class BookComment(Resource):
             return new_book_comment.to_dict(), 200
         except IntegrityError:
             return {'error': '422 Unprocessable Entity'}, 422
+        
+
 
 
 
@@ -231,6 +255,7 @@ api.add_resource(OneMembership, "/memberships/<int:id>")
 api.add_resource(OneInvitation, "/invitations/<int:id>")
 api.add_resource(OneMovie, "/movies/<int:id>")
 api.add_resource(AllMovies, "/movies")
+api.add_resource(MyMovies, "/my-movies", endpoint='api/my-movies')
 api.add_resource(Music_Comment, "/music-comments", endpoint='api/music-comments')
 api.add_resource(Movie_Comment, "/movie-comments", endpoint='api/movie-comments')
 api.add_resource(Book_Comment, "/book-comments", endpoint='api/book-comments')
